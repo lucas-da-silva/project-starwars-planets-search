@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react';
 import StarWarsContext from '../contexts/StarWarsContext';
 
 function Filters() {
-  const { setFilterByName, setFilterByNumericValues } = useContext(StarWarsContext);
+  const { setFilterByName, setFilterByNumericValues,
+    filterByNumericValues } = useContext(StarWarsContext);
   const [filters, setFilters] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -24,6 +25,15 @@ function Filters() {
     ]);
   };
 
+  let optionsColumn = ['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water'];
+
+  if (filterByNumericValues.length) {
+    optionsColumn = optionsColumn.filter(
+      (option) => filterByNumericValues.some(({ column }) => option !== column),
+    );
+  }
+
   return (
     <section>
       <form onSubmit={ handleSubmit }>
@@ -41,11 +51,9 @@ function Filters() {
             id="column-filter"
             onChange={ handleChange }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {optionsColumn.map((option) => (
+              <option key={ option } value={ option }>{option}</option>
+            ))}
           </select>
         </label>
         <label htmlFor="comparison-filter">
