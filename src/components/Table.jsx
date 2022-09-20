@@ -11,36 +11,39 @@ function Table() {
   }
   if (filterByNumericValues.length) {
     filteredPlanets = planets.filter((planet) => {
-      const { column, comparison, number } = filterByNumericValues[0];
-      switch (comparison) {
-      case 'maior que':
-        return Number(planet[column]) > Number(number);
-      case 'menor que':
-        return Number(planet[column]) < Number(number);
-      case 'igual a':
-        return Number(planet[column]) === Number(number);
-      default: return false;
-      }
-      // let value = true;
-      // filterByNumericValues.forEach(({ column, comparison, number }) => {
-      //   switch (comparison) {
-      //   case 'greater':
-      //     value = Number(planet[column]) > Number(number);
-      //     break;
-      //   case 'less':
-      //     value = Number(planet[column]) < Number(number);
-      //     break;
-      //   case 'equal':
-      //     value = Number(planet[column]) === Number(number);
-      //     break;
-      //   default: return false;
-      //   }
-      // });
+      let value = true;
+      filterByNumericValues.forEach(({ column, comparison, number }) => {
+        switch (comparison) {
+        case 'maior que':
+          if (Number(planet[column]) <= Number(number)) {
+            value = false;
+          }
+          break;
+        case 'menor que':
+          if (Number(planet[column]) >= Number(number)) {
+            value = false;
+          }
+          break;
+        case 'igual a':
+          if (Number(planet[column]) !== Number(number)) {
+            value = false;
+          }
+          break;
+        default: return false;
+        }
+      });
+      return value;
     });
   }
 
   return (
     <section>
+      {filterByNumericValues.map(({ column, comparison, number }, index) => (
+        <div key={ index }>
+          <p>{`${column} ${comparison} ${number}`}</p>
+          <button type="button">remover</button>
+        </div>
+      ))}
       <table>
         <thead>
           <tr>
