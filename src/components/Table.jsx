@@ -5,31 +5,36 @@ import TableRender from './TableRender';
 function Table() {
   const { planets, filterByName, filterByNumericValues } = useContext(StarWarsContext);
 
+  const filterNumericPlanets = (planet, column, comparison, number) => {
+    switch (comparison) {
+    case 'maior que':
+      return Number(planet[column]) > Number(number);
+    case 'menor que':
+      return Number(planet[column]) < Number(number);
+    case 'igual a':
+      return Number(planet[column]) === Number(number);
+    default: return false;
+    }
+  };
+
   let filteredPlanets = planets;
+
   if (filterByName.name) {
-    filteredPlanets = planets.filter(({ name }) => name.includes(filterByName.name));
+    filteredPlanets = filteredPlanets.filter(
+      ({ name }) => name.includes(filterByName.name),
+    );
   }
+
   if (filterByNumericValues.length) {
-    filteredPlanets = planets.filter((planet) => {
+    filteredPlanets = filteredPlanets.filter((planet) => {
       let value = true;
       filterByNumericValues.forEach(({ column, comparison, number }) => {
-        switch (comparison) {
-        case 'maior que':
-          if (Number(planet[column]) <= Number(number)) {
-            value = false;
-          }
-          break;
-        case 'menor que':
-          if (Number(planet[column]) >= Number(number)) {
-            value = false;
-          }
-          break;
-        case 'igual a':
-          if (Number(planet[column]) !== Number(number)) {
-            value = false;
-          }
-          break;
-        default: return false;
+        if (planet[column] === 'unknown') {
+          value = false;
+        }
+        const result = filterNumericPlanets(planet, column, comparison, number);
+        if (!result) {
+          value = false;
         }
       });
       return value;
