@@ -7,7 +7,7 @@ const apiStarWars = async () => (
       const {
         climate, created, diameter, edited, films, gravity, name,
         orbital_period: orbitalPeriod, population, rotation_period: rotationPeriod,
-        surfact_water: surfaceWater, terrain, url,
+        surface_water: surfaceWater, terrain, url,
       } = planet;
       return {
         climate,
@@ -17,10 +17,10 @@ const apiStarWars = async () => (
         films,
         gravity,
         name,
-        orbitalPeriod,
+        orbital_period: orbitalPeriod,
         population,
-        rotationPeriod,
-        surfaceWater,
+        rotation_period: rotationPeriod,
+        surface_water: surfaceWater,
         terrain,
         url,
       };
