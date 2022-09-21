@@ -10,51 +10,35 @@ function Table() {
     removeFilter } = useContext(StarWarsContext);
 
   const filterNumericPlanets = (planet, column, comparison, number) => {
-    switch (comparison) {
-    case 'maior que':
-      return Number(planet[column]) > Number(number);
-    case 'menor que':
-      return Number(planet[column]) < Number(number);
-    case 'igual a':
-      return Number(planet[column]) === Number(number);
-    default: return false;
-    }
+    if (comparison === 'maior que') return Number(planet[column]) > Number(number);
+    if (comparison === 'menor que') return Number(planet[column]) < Number(number);
+    if (comparison === 'igual a') return Number(planet[column]) === Number(number);
   };
 
   const sortPlanets = (planetsToSort, column, sort) => {
-    switch (sort) {
-    case 'ASC':
+    if (sort === 'ASC') {
       return planetsToSort.sort(
         (a, b) => {
-          if (a[column] === 'unknown') {
-            return HIGH_VALUE;
-          }
-          if (b[column] === 'unknown') {
-            return LOWER_VALUE;
-          }
+          if (a[column] === 'unknown') return HIGH_VALUE;
+          if (b[column] === 'unknown') return LOWER_VALUE;
           return a[column] - b[column];
         },
       );
-    case 'DESC':
+    }
+    if (sort === 'DESC') {
       return planetsToSort.sort(
         (a, b) => {
-          if (a[column] === 'unknown') {
-            return HIGH_VALUE;
-          }
-          if (b[column] === 'unknown') {
-            return LOWER_VALUE;
-          }
+          if (a[column] === 'unknown') return HIGH_VALUE;
+          if (b[column] === 'unknown') return LOWER_VALUE;
           return b[column] - a[column];
         },
       );
-    default: return planetsToSort;
     }
   };
 
   let filteredPlanets = planets;
 
   if (filterByName.name) {
-    console.log(filteredPlanets);
     filteredPlanets = filteredPlanets.filter(
       ({ name }) => name.includes(filterByName.name),
     );
@@ -64,13 +48,9 @@ function Table() {
     filteredPlanets = filteredPlanets.filter((planet) => {
       let value = true;
       filterByNumericValues.forEach(({ column, comparison, number }) => {
-        if (planet[column] === 'unknown') {
-          value = false;
-        }
+        if (planet[column] === 'unknown') value = false;
         const result = filterNumericPlanets(planet, column, comparison, number);
-        if (!result) {
-          value = false;
-        }
+        if (!result) value = false;
       });
       return value;
     });
@@ -90,7 +70,7 @@ function Table() {
             onClick={ () => removeFilter(index) }
             type="button"
           >
-            remover
+            Remover
           </button>
         </div>
       ))}
