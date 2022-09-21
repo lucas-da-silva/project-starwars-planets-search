@@ -3,7 +3,8 @@ import StarWarsContext from '../contexts/StarWarsContext';
 import TableRender from './TableRender';
 
 function Table() {
-  const { planets, filterByName, filterByNumericValues } = useContext(StarWarsContext);
+  const { planets, filterByName, filterByNumericValues,
+    removeFilter } = useContext(StarWarsContext);
 
   const filterNumericPlanets = (planet, column, comparison, number) => {
     switch (comparison) {
@@ -44,9 +45,14 @@ function Table() {
   return (
     <section>
       {filterByNumericValues.map(({ column, comparison, number }, index) => (
-        <div key={ index }>
+        <div data-testid="filter" key={ index }>
           <p>{`${column} ${comparison} ${number}`}</p>
-          <button type="button">remover</button>
+          <button
+            onClick={ () => removeFilter(index) }
+            type="button"
+          >
+            remover
+          </button>
         </div>
       ))}
       <table>

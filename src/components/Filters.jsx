@@ -2,16 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import StarWarsContext from '../contexts/StarWarsContext';
 
 function Filters() {
-  const { setFilterByName, setFilterByNumericValues,
-    filterByNumericValues } = useContext(StarWarsContext);
+  const { addNameFilter, addNumericFilter, optionsColumn,
+    removeAllFilters } = useContext(StarWarsContext);
   const [filters, setFilters] = useState({
     column: 'population',
     comparison: 'maior que',
     number: 0,
   });
-  const [optionsColumn, setOptionsColumn] = useState([
-    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-  ]);
 
   const handleChange = ({ target: { name, value } }) => {
     setFilters((prevFilters) => ({
@@ -20,34 +17,20 @@ function Filters() {
     }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setFilterByNumericValues((prevFilterByNumericValues) => [
-      ...prevFilterByNumericValues,
-      filters,
-    ]);
-  };
-
   useEffect(() => {
-    if (filterByNumericValues.length) {
-      const newOptionsColumn = optionsColumn.filter(
-        (option) => filterByNumericValues.some(({ column }) => option !== column),
-      );
-      setOptionsColumn(newOptionsColumn);
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        column: newOptionsColumn[0],
-      }));
-    }
-  }, [filterByNumericValues]);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      column: optionsColumn[0],
+    }));
+  }, [optionsColumn]);
 
   return (
     <section>
-      <form onSubmit={ handleSubmit }>
+      <form>
         <input
           type="text"
           data-testid="name-filter"
-          onChange={ (event) => setFilterByName({ name: event.target.value }) }
+          onChange={ (event) => addNameFilter(event.target.value) }
         />
         <label htmlFor="column-filter">
           Coluna
@@ -84,7 +67,20 @@ function Filters() {
           value={ filters.number }
           onChange={ handleChange }
         />
-        <button data-testid="button-filter" type="submit">Filtrar</button>
+        <button
+          data-testid="button-filter"
+          type="button"
+          onClick={ () => addNumericFilter(filters) }
+        >
+          Filtrar
+        </button>
+        <button
+          type="button"
+          data-testid="button-remove-filters"
+          onClick={ removeAllFilters }
+        >
+          Remover filtros
+        </button>
       </form>
     </section>
   );
