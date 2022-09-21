@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import StarWarsContext from '../contexts/StarWarsContext';
 
 function Filters() {
@@ -9,6 +9,9 @@ function Filters() {
     comparison: 'maior que',
     number: 0,
   });
+  const [optionsColumn, setOptionsColumn] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ]);
 
   const handleChange = ({ target: { name, value } }) => {
     setFilters((prevFilters) => ({
@@ -25,14 +28,18 @@ function Filters() {
     ]);
   };
 
-  let optionsColumn = ['population', 'orbital_period', 'diameter',
-    'rotation_period', 'surface_water'];
-
-  if (filterByNumericValues.length) {
-    optionsColumn = optionsColumn.filter(
-      (option) => filterByNumericValues.some(({ column }) => option !== column),
-    );
-  }
+  useEffect(() => {
+    if (filterByNumericValues.length) {
+      const newOptionsColumn = optionsColumn.filter(
+        (option) => filterByNumericValues.some(({ column }) => option !== column),
+      );
+      setOptionsColumn(newOptionsColumn);
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        column: newOptionsColumn[0],
+      }));
+    }
+  }, [filterByNumericValues]);
 
   return (
     <section>
