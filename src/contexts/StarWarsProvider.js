@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import apiStarWars from '../services/apiStarWars';
 import StarWarsContext from './StarWarsContext';
 
-const INITIAL_OPTIONS_COLUMN = [
+const initialOptionsColumn = [
   'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
 ];
 
@@ -11,7 +11,8 @@ function StarWarsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filterByName, setFilterByName] = useState({});
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
-  const [optionsColumn, setOptionsColumn] = useState(INITIAL_OPTIONS_COLUMN);
+  const [filterBySort, setFilterBySort] = useState({});
+  const [optionsColumn, setOptionsColumn] = useState(initialOptionsColumn);
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -34,7 +35,7 @@ function StarWarsProvider({ children }) {
 
   useEffect(() => {
     if (filterByNumericValues.length) {
-      const newOptionsColumn = INITIAL_OPTIONS_COLUMN.filter(
+      const newOptionsColumn = initialOptionsColumn.filter(
         (option) => filterByNumericValues.some(({ column }) => option !== column),
       );
       setOptionsColumn(newOptionsColumn);
@@ -48,7 +49,11 @@ function StarWarsProvider({ children }) {
 
   const removeAllFilters = () => {
     setFilterByNumericValues([]);
-    setOptionsColumn(INITIAL_OPTIONS_COLUMN);
+    setOptionsColumn(initialOptionsColumn);
+  };
+
+  const sortPlanet = (filtersSort) => {
+    setFilterBySort({ order: filtersSort });
   };
 
   const contextType = {
@@ -56,9 +61,12 @@ function StarWarsProvider({ children }) {
     filterByName,
     filterByNumericValues,
     removeFilter,
+    sortPlanet,
+    filterBySort,
     addNameFilter,
     addNumericFilter,
     optionsColumn,
+    initialOptionsColumn,
     removeAllFilters,
   };
 

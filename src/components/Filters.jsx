@@ -2,17 +2,28 @@ import React, { useContext, useEffect, useState } from 'react';
 import StarWarsContext from '../contexts/StarWarsContext';
 
 function Filters() {
-  const { addNameFilter, addNumericFilter, optionsColumn,
-    removeAllFilters } = useContext(StarWarsContext);
+  const { addNameFilter, addNumericFilter, optionsColumn, sortPlanet,
+    removeAllFilters, initialOptionsColumn } = useContext(StarWarsContext);
   const [filters, setFilters] = useState({
     column: 'population',
     comparison: 'maior que',
     number: 0,
   });
+  const [filtersSort, setFiltersSort] = useState({
+    column: 'population',
+    sort: 'ASC',
+  });
 
   const handleChange = ({ target: { name, value } }) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
+      [name]: value,
+    }));
+  };
+
+  const handleChangeSort = ({ target: { name, value } }) => {
+    setFiltersSort((prevFiltersSort) => ({
+      ...prevFiltersSort,
       [name]: value,
     }));
   };
@@ -30,7 +41,7 @@ function Filters() {
         <input
           type="text"
           data-testid="name-filter"
-          onChange={ (event) => addNameFilter(event.target.value) }
+          onChange={ ({ target: { value } }) => addNameFilter(value) }
         />
         <label htmlFor="column-filter">
           Coluna
@@ -80,6 +91,49 @@ function Filters() {
           onClick={ removeAllFilters }
         >
           Remover filtros
+        </button>
+        <label htmlFor="column-sort">
+          Ordenar
+          <select
+            name="column"
+            value={ filtersSort.column }
+            data-testid="column-sort"
+            id="column-sort"
+            onChange={ handleChangeSort }
+          >
+            {initialOptionsColumn.map((option) => (
+              <option key={ option } value={ option }>{option}</option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="column-sort-input-asc">
+          <input
+            type="radio"
+            name="sort"
+            value="ASC"
+            data-testid="column-sort-input-asc"
+            id="column-sort-input-asc"
+            onChange={ handleChangeSort }
+          />
+          Ascendente
+        </label>
+        <label htmlFor="column-sort-input-desc">
+          <input
+            type="radio"
+            value="DESC"
+            name="sort"
+            data-testid="column-sort-input-desc"
+            id="column-sort-input-desc"
+            onChange={ handleChangeSort }
+          />
+          Descendente
+        </label>
+        <button
+          onClick={ () => sortPlanet(filtersSort) }
+          type="button"
+          data-testid="column-sort-button"
+        >
+          Ordenar
         </button>
       </form>
     </section>

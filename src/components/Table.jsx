@@ -2,8 +2,11 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../contexts/StarWarsContext';
 import TableRender from './TableRender';
 
+const HIGH_VALUE = 1;
+const LOWER_VALUE = -1;
+
 function Table() {
-  const { planets, filterByName, filterByNumericValues,
+  const { planets, filterByName, filterByNumericValues, filterBySort,
     removeFilter } = useContext(StarWarsContext);
 
   const filterNumericPlanets = (planet, column, comparison, number) => {
@@ -18,9 +21,40 @@ function Table() {
     }
   };
 
+  const sortPlanets = (planetsToSort, column, sort) => {
+    switch (sort) {
+    case 'ASC':
+      return planetsToSort.sort(
+        (a, b) => {
+          if (a[column] === 'unknown') {
+            return HIGH_VALUE;
+          }
+          if (b[column] === 'unknown') {
+            return LOWER_VALUE;
+          }
+          return a[column] - b[column];
+        },
+      );
+    case 'DESC':
+      return planetsToSort.sort(
+        (a, b) => {
+          if (a[column] === 'unknown') {
+            return HIGH_VALUE;
+          }
+          if (b[column] === 'unknown') {
+            return LOWER_VALUE;
+          }
+          return b[column] - a[column];
+        },
+      );
+    default: return planetsToSort;
+    }
+  };
+
   let filteredPlanets = planets;
 
   if (filterByName.name) {
+    console.log(filteredPlanets);
     filteredPlanets = filteredPlanets.filter(
       ({ name }) => name.includes(filterByName.name),
     );
@@ -40,6 +74,11 @@ function Table() {
       });
       return value;
     });
+  }
+
+  if (filterBySort.order) {
+    const { order: { column, sort } } = filterBySort;
+    filteredPlanets = sortPlanets(filteredPlanets, column, sort);
   }
 
   return (
