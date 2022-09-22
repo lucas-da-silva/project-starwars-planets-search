@@ -1,7 +1,7 @@
 .input-group {
   display: flex;
   justify-content: center;
-  margin-bottom: 50px;
+  margin-bottom: 55px;
 }
 
 .name-filter {
@@ -22,5 +22,6 @@
   background-color: black;
   border: 1px solid white;
   border-left: none;
+  color: white;
   height: 42px;
 }

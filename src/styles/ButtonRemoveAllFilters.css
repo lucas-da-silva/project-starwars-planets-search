@@ -1,0 +1,17 @@
+:root {
+
+  --remove-all-filters: #e64242;
+}
+
+.remove-all-filter {
+  border: 1px solid var(--remove-all-filters);
+  border-radius: 5px;
+  color: var(--remove-all-filters);
+  font-size: 14px;
+  font-weight: 700;
+  height: 85px;
+  line-height: 18px;
+  margin-right: 50px;
+  text-transform: uppercase;
+  width: 91px;
+}

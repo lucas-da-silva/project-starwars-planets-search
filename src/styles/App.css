@@ -6,7 +6,8 @@
 * {
   background-color: black;
   box-sizing: border-box;
-  color: white;
+  font-family: Epilogue , sans-serif;
+  font-style: normal;
   margin: 0%;
   padding: 0%;
 }
@@ -22,7 +23,7 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  margin: 50px 0 150px;
+  margin: 150px 0 200px;
 }
 
 .logo-star-wars {

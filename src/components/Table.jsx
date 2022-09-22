@@ -1,25 +1,29 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext } from 'react';
 import StarWarsContext from '../contexts/StarWarsContext';
+import '../styles/Table.css';
 import TableRender from './TableRender';
 
 function Table() {
   const { planets, filterByNumericValues, removeFilter } = useContext(StarWarsContext);
 
   return (
-    <section>
-      {filterByNumericValues.map(({ column, comparison, number }, index) => (
-        <div data-testid="filter" key={ index }>
-          <p>{`${column} ${comparison} ${number}`}</p>
-          <button
-            onClick={ () => removeFilter(index) }
-            type="button"
-          >
-            Remover
-          </button>
-        </div>
-      ))}
-      <table>
-        <thead>
+    <section className="table-container">
+      <div className="created-filters-container">
+        {filterByNumericValues.map(({ column, comparison, number }, index) => (
+          <div className="filter" data-testid="filter" key={ index }>
+            <p>{`${column} ${comparison} ${number}`}</p>
+            <button
+              onClick={ () => removeFilter(index) }
+              type="button"
+            >
+              <FontAwesomeIcon className="icon-trash" icon="fa-solid fa-trash" />
+            </button>
+          </div>
+        ))}
+      </div>
+      <table className="table-planets" id="table-planets">
+        <thead id="table-head">
           <tr>
             <th>Name</th>
             <th>Rotation Period</th>

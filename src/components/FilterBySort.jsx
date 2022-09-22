@@ -34,7 +34,7 @@ function FilterBySort() {
         </select>
       </label>
       <div className="radio-inputs-container">
-        <label className="label-radio-filter" htmlFor="column-sort-input-asc">
+        <label className="container label-radio-filter" htmlFor="column-sort-input-asc">
           <input
             type="radio"
             name="sort"
@@ -44,17 +44,19 @@ function FilterBySort() {
             onChange={ handleChange }
           />
           Ascendente
+          <span className="checkmark" />
         </label>
-        <label className="label-radio-filter" htmlFor="column-sort-input-desc">
+        <label className="container label-radio-filter" htmlFor="column-sort-input-desc">
           <input
             type="radio"
-            value="DESC"
             name="sort"
+            value="DESC"
             data-testid="column-sort-input-desc"
             id="column-sort-input-desc"
             onChange={ handleChange }
           />
           Descendente
+          <span className="checkmark" />
         </label>
       </div>
       <button

@@ -13,10 +13,10 @@ function TableRender({ planet }) {
       <td>{planet.terrain}</td>
       <td>{planet.surface_water}</td>
       <td>{planet.population}</td>
-      <td>{planet.films}</td>
-      <td>{planet.created}</td>
-      <td>{planet.edited}</td>
-      <td>{planet.url}</td>
+      <td>{planet.films.map((film, index) => <p key={ index }>{film}</p>)}</td>
+      <td><p>{planet.created}</p></td>
+      <td><p>{planet.edited}</p></td>
+      <td><p>{planet.url}</p></td>
     </tr>
   );
 }
