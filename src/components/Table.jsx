@@ -7,36 +7,36 @@ import TableRender from './TableRender';
 const HIGH_VALUE = 1;
 const LOWER_VALUE = -1;
 
+const filterNumericPlanets = (planet, column, comparison, number) => {
+  if (comparison === 'maior que') return Number(planet[column]) > Number(number);
+  if (comparison === 'menor que') return Number(planet[column]) < Number(number);
+  if (comparison === 'igual a') return Number(planet[column]) === Number(number);
+};
+
+const sortPlanets = (planetsToSort, column, sort) => {
+  if (sort === 'ASC') {
+    return planetsToSort.sort(
+      (a, b) => {
+        if (a[column] === 'unknown') return HIGH_VALUE;
+        if (b[column] === 'unknown') return LOWER_VALUE;
+        return a[column] - b[column];
+      },
+    );
+  }
+  if (sort === 'DESC') {
+    return planetsToSort.sort(
+      (a, b) => {
+        if (a[column] === 'unknown') return HIGH_VALUE;
+        if (b[column] === 'unknown') return LOWER_VALUE;
+        return b[column] - a[column];
+      },
+    );
+  }
+};
+
 function Table() {
   const { planets, filterByName, filterByNumericValues,
     removeFilter, filterBySort } = useContext(StarWarsContext);
-
-  const filterNumericPlanets = (planet, column, comparison, number) => {
-    if (comparison === 'maior que') return Number(planet[column]) > Number(number);
-    if (comparison === 'menor que') return Number(planet[column]) < Number(number);
-    if (comparison === 'igual a') return Number(planet[column]) === Number(number);
-  };
-
-  const sortPlanets = (planetsToSort, column, sort) => {
-    if (sort === 'ASC') {
-      return planetsToSort.sort(
-        (a, b) => {
-          if (a[column] === 'unknown') return HIGH_VALUE;
-          if (b[column] === 'unknown') return LOWER_VALUE;
-          return a[column] - b[column];
-        },
-      );
-    }
-    if (sort === 'DESC') {
-      return planetsToSort.sort(
-        (a, b) => {
-          if (a[column] === 'unknown') return HIGH_VALUE;
-          if (b[column] === 'unknown') return LOWER_VALUE;
-          return b[column] - a[column];
-        },
-      );
-    }
-  };
 
   let filteredPlanets = planets;
 
