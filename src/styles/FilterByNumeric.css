@@ -1,0 +1,13 @@
+.filter-by-numeric-cotainer {
+  align-items: center;
+  display: flex;
+}
+
+.value-filter {
+  border: 1px solid white;
+  border-radius: 5px;
+  height: 42px;
+  margin-right: 50px;
+  padding: 15px;
+  width: 91px;
+}
